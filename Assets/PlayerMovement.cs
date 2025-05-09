@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Sprite spriteDownLeft;
     [SerializeField] private Sprite spriteDownRight;
     [SerializeField] private Sprite spriteIdle;
+    [SerializeField] private Transform gunParent;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -53,6 +55,13 @@ public class PlayerMovement : MonoBehaviour
             else
                 spriteRenderer.sprite = spriteIdle;
         }
+
+        // Rotate the gun to face the mouse
+        Mouse mouse = Mouse.current;
+        Vector2 mousePosition = mouse.position.ReadValue();
+        Vector2 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
+        gunParent.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(worldPosition.y - transform.position.y, worldPosition.x - transform.position.x) * Mathf.Rad2Deg - 90);
     }
 
     void FixedUpdate()
