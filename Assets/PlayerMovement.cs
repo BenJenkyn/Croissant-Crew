@@ -6,15 +6,15 @@ public class PlayerMovement : MonoBehaviour
     private float horizontal = 0f;
     private float vertical = 0f;
     private SpriteRenderer spriteRenderer;
-    public Sprite spriteUp;
-    public Sprite spriteDown;
-    public Sprite spriteLeft;
-    public Sprite spriteRight;
-    public Sprite spriteUpLeft;
-    public Sprite spriteUpRight;
-    public Sprite spriteDownLeft;
-    public Sprite spriteDownRight;
-    public Sprite spriteIdle;
+    [SerializeField] private Sprite spriteUp;
+    [SerializeField] private Sprite spriteDown;
+    [SerializeField] private Sprite spriteLeft;
+    [SerializeField] private Sprite spriteRight;
+    [SerializeField] private Sprite spriteUpLeft;
+    [SerializeField] private Sprite spriteUpRight;
+    [SerializeField] private Sprite spriteDownLeft;
+    [SerializeField] private Sprite spriteDownRight;
+    [SerializeField] private Sprite spriteIdle;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
