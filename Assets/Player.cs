@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class Player : MonoBehaviour
     private float vertical = 0f;
     private SpriteRenderer spriteRenderer;
 
-    private float health = 100f;
+    private float health;
 
     // Sprite direction movements
     [SerializeField] private Sprite spriteUp;
@@ -29,7 +30,8 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
 
     bool isImmmne = false;
-    int frameesAlive = 0;
+    bool isDead;
+    int framesAlive = 0;
     public static Player instance;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -38,6 +40,8 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         instance = this;
+        Init();
+        DontDestroyOnLoad(this);
     }
 
     // Update is called once per frame
@@ -71,23 +75,26 @@ public class Player : MonoBehaviour
                 spriteRenderer.sprite = spriteIdle;
         }
 
-        // Rotate the gun to face the mouse
-        Mouse mouse = Mouse.current;
-        Vector2 mousePosition = mouse.position.ReadValue();
-        Vector2 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        if (!isDead)
+        {
+            // Rotate the gun to face the mouse
+            Mouse mouse = Mouse.current;
+            Vector2 mousePosition = mouse.position.ReadValue();
+            Vector2 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
-        gunParent.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(worldPosition.y - transform.position.y, worldPosition.x - transform.position.x) * Mathf.Rad2Deg - 90);
-        frameesAlive++;
-        if (frameesAlive % 10 == 0)
-        {
-            GetComponent<BoxCollider2D>().enabled = false;
-            GetComponent<BoxCollider2D>().enabled = true;
-        }
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
-        if (Input.GetButtonDown("Fire1"))
-        {
-            Shoot();
+            gunParent.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(worldPosition.y - transform.position.y, worldPosition.x - transform.position.x) * Mathf.Rad2Deg - 90);
+            framesAlive++;
+            if (framesAlive % 10 == 0)
+            {
+                GetComponent<BoxCollider2D>().enabled = false;
+                GetComponent<BoxCollider2D>().enabled = true;
+            }
+            horizontal = Input.GetAxisRaw("Horizontal");
+            vertical = Input.GetAxisRaw("Vertical");
+            if (Input.GetButtonDown("Fire1"))
+            {
+                Shoot();
+            }
         }
     }
 
@@ -102,20 +109,27 @@ public class Player : MonoBehaviour
     public void Shoot()
     {
         // Instantiate the bullet at the gun's position and rotation
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
 
         // Get the Rigidbody2D component of the bullet
-        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+        Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
 
         // Set the bullet's velocity to move forward
-        rb.linearVelocity = firePoint.up * 10f; // Adjust speed as necessary
+        rbBullet.linearVelocity = new Vector2(-Mathf.Sin(firePoint.rotation.eulerAngles.z * Mathf.Deg2Rad), Mathf.Cos(firePoint.rotation.eulerAngles.z * Mathf.Deg2Rad)) * 10f; // Adjust speed as necessary
     }
 
     public void Die()
     {
-        // isDead = true;
+        isDead = true;
         GameOverScreen.SetActive(true);
         Time.timeScale = 0;
+    }
+
+    public void Live()
+    {
+        Init();
+        GameOverScreen.SetActive(false);
+        Time.timeScale = 1;
     }
 
     public void TakeDamage(float damage)
@@ -143,5 +157,13 @@ public class Player : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
         }
         isImmmne = false;
+    }
+
+    private void Init()
+    {
+        health = 100f;
+        isDead = false;
+        transform.position = new Vector3(0, 0);
+        SceneManager.LoadScene("Level1");
     }
 }
