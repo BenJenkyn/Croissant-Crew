@@ -20,11 +20,11 @@ public class BulletHit : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             float damage = bulletPrefab.getDamage();
+            collision.GetComponent<Player>().TakeDamage(damage);
         }
         if (collision.CompareTag("Enemy"))
         {
             float damage = bulletPrefab.getDamage();
-            Debug.Log("Hit enemy");
             collision.GetComponent<Enemy>().TakeDamage(damage);
         }
     }

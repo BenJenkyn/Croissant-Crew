@@ -52,7 +52,5 @@ public class Enemy : MonoBehaviour
         {
             Die();
         }
-        Debug.Log("Enemy took damage: " + damage);
-        Debug.Log("Enemy health: " + health);
     }
 }

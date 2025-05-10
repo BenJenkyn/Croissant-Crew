@@ -77,4 +77,18 @@ public class Player : MonoBehaviour
         Vector2 movement = new Vector2(horizontal, vertical);
         rb.linearVelocity = movement * 10f;
     }
+
+        public void Die()
+    {
+        Destroy(gameObject);
+    }
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
 }
