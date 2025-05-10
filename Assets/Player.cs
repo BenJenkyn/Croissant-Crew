@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class Player : MonoBehaviour
 {
     private Rigidbody2D rb;
     private float horizontal = 0f;
     private float vertical = 0f;
     private SpriteRenderer spriteRenderer;
+    private float health = 100f;
     [SerializeField] private Sprite spriteUp;
     [SerializeField] private Sprite spriteDown;
     [SerializeField] private Sprite spriteLeft;
@@ -18,11 +19,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Sprite spriteIdle;
     [SerializeField] private Transform gunParent;
 
+    public static Player instance;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        instance = this;
     }
 
     // Update is called once per frame

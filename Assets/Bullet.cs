@@ -3,6 +3,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     private Rigidbody2D rb;
+    private float damage = 10f;
 
     void Start()
     {
@@ -15,8 +16,25 @@ public class Bullet : MonoBehaviour
 
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void FixedUpdate()
     {
-        Debug.Log("Bullet hit: " + collision.gameObject.name);
+        // Get the Rigidbody2D component of the bullet
+    }
+
+    public void Reflect(string axis)
+    {
+        if (axis == "X")
+        {
+            rb.linearVelocityX = -rb.linearVelocityX;
+        }
+        if (axis == "Y")
+        {
+            rb.linearVelocityY = -rb.linearVelocityY;
+        }
+    }
+
+    public float getDamage()
+    {
+        return damage;
     }
 }
