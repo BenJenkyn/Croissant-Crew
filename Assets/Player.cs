@@ -8,7 +8,10 @@ public class Player : MonoBehaviour
     private float horizontal = 0f;
     private float vertical = 0f;
     private SpriteRenderer spriteRenderer;
+
     private float health = 100f;
+
+    // Sprite direction movements
     [SerializeField] private Sprite spriteUp;
     [SerializeField] private Sprite spriteDown;
     [SerializeField] private Sprite spriteLeft;
@@ -18,7 +21,13 @@ public class Player : MonoBehaviour
     [SerializeField] private Sprite spriteDownLeft;
     [SerializeField] private Sprite spriteDownRight;
     [SerializeField] private Sprite spriteIdle;
+
+    // Transforms and game objects
     [SerializeField] private Transform gunParent;
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private GameObject GameOverScreen;
+    [SerializeField] private GameObject bulletPrefab;
+
     bool isImmmne = false;
     int frameesAlive = 0;
     public static Player instance;
@@ -74,21 +83,39 @@ public class Player : MonoBehaviour
             GetComponent<BoxCollider2D>().enabled = false;
             GetComponent<BoxCollider2D>().enabled = true;
         }
+        horizontal = Input.GetAxisRaw("Horizontal");
+        vertical = Input.GetAxisRaw("Vertical");
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Shoot();
+        }
     }
 
     void FixedUpdate()
     {
         rb = GetComponent<Rigidbody2D>();
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
 
         Vector2 movement = new Vector2(horizontal, vertical);
         rb.linearVelocity = movement * 10f;
     }
 
+    public void Shoot()
+    {
+        // Instantiate the bullet at the gun's position and rotation
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+
+        // Get the Rigidbody2D component of the bullet
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+
+        // Set the bullet's velocity to move forward
+        rb.linearVelocity = firePoint.up * 10f; // Adjust speed as necessary
+    }
+
     public void Die()
     {
-        Destroy(gameObject);
+        // isDead = true;
+        GameOverScreen.SetActive(true);
+        Time.timeScale = 0;
     }
 
     public void TakeDamage(float damage)
