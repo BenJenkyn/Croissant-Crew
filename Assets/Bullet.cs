@@ -4,6 +4,7 @@ public class Bullet : MonoBehaviour
 {
     private Rigidbody2D rb;
     private float damage = 10f;
+    private float lifeTime = 5f;
 
     void Start()
     {
@@ -18,7 +19,14 @@ public class Bullet : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Get the Rigidbody2D component of the bullet
+        if (lifeTime > 0)
+        {
+            lifeTime -= Time.fixedDeltaTime;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void Reflect(string axis)
