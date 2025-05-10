@@ -6,7 +6,6 @@ public class Enemy : MonoBehaviour
     private float health = 100f;
     public static Enemy instance;
 
-
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -27,6 +26,8 @@ public class Enemy : MonoBehaviour
         // Rotate the enemy to face the player
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
+
+
     }
 
     void FixedUpdate()
@@ -40,7 +41,15 @@ public class Enemy : MonoBehaviour
         rb.linearVelocity = direction * 1f; // Adjust speed as necessary
     }
 
-    public void Die()
+  void OnCollisionEnter2D(Collision2D collision)
+  {
+    if(collision.gameObject.CompareTag("Player"))
+    {
+        collision.gameObject.GetComponent<Player>().TakeDamage(10f);
+    }
+  }
+
+  public void Die()
     {
         Destroy(gameObject);
     }
