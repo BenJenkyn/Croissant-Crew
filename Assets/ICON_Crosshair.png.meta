@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6d44a8c4cc3a74318a26e6cfc609b0ed
+guid: b81e12d90830e4af5b38bf420bce292d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6839390947254842454
-    second: Prop_THEGOAT_0
+      213: 9222961945738953883
+    second: ICON_Crosshair_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -24,7 +24,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -57,7 +57,7 @@ TextureImporter:
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 8
+  textureType: 7
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Prop_THEGOAT_0
+      name: ICON_Crosshair_0
       rect:
         serializedVersion: 2
-        x: 54
-        y: 13
-        width: 259
-        height: 404
+        x: 0
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 654b52374d56aee50800000000000000
-      internalID: 6839390947254842454
+      spriteID: b9447b8360b8eff70800000000000000
+      internalID: 9222961945738953883
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Prop_THEGOAT_0: 6839390947254842454
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -8,6 +8,7 @@ public class Game : MonoBehaviour
     {
         DontDestroyOnLoad(this);
         instance = this;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     // Update is called once per frame

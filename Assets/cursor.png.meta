@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6d44a8c4cc3a74318a26e6cfc609b0ed
+guid: e9addb4a6b3ca4dffb0a70d03307d3a6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6839390947254842454
-    second: Prop_THEGOAT_0
+      213: -6378282799014685283
+    second: bullet-laser_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -24,7 +24,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -57,7 +57,7 @@ TextureImporter:
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 8
+  textureType: 7
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -109,17 +109,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Prop_THEGOAT_0
+      name: bullet-laser_0
       rect:
         serializedVersion: 2
-        x: 54
-        y: 13
-        width: 259
-        height: 404
+        x: 0
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 654b52374d56aee50800000000000000
-      internalID: 6839390947254842454
+      spriteID: d95debf7699cb77a0800000000000000
+      internalID: -6378282799014685283
       vertices: []
       indices: 
       edges: []
@@ -148,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Prop_THEGOAT_0: 6839390947254842454
+      bullet-laser_0: -6378282799014685283
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

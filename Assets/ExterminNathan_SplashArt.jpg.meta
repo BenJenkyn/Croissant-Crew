@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6d44a8c4cc3a74318a26e6cfc609b0ed
+guid: c62886a8eb4b4480dae8e41cf43c6ecb
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6839390947254842454
-    second: Prop_THEGOAT_0
+      213: -2394887079769000993
+    second: ExterminNathan_SplashArt_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Prop_THEGOAT_0
+      name: ExterminNathan_SplashArt_0
       rect:
         serializedVersion: 2
-        x: 54
-        y: 13
-        width: 259
-        height: 404
+        x: 0
+        y: 0
+        width: 1260
+        height: 1000
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 654b52374d56aee50800000000000000
-      internalID: 6839390947254842454
+      spriteID: fd3323db3e6a3ced0800000000000000
+      internalID: -2394887079769000993
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Prop_THEGOAT_0: 6839390947254842454
+      ExterminNathan_SplashArt_0: -2394887079769000993
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
