@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 79e24c914dbd723489ad3fbaefb34d54
+guid: 2fa743582a29b4625aad5a6addffc0ab
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7580939372562943365
-    second: splat_0
+      213: -5418760422525718102
+    second: PlayerWalk_Front_0
+  - first:
+      213: -8771804788816549129
+    second: PlayerWalk_Front_1
+  - first:
+      213: -151078133340634465
+    second: PlayerWalk_Front_2
+  - first:
+      213: -229197776560028245
+    second: PlayerWalk_Front_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +60,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 50
+  spritePixelsToUnits: 150
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -109,30 +118,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: splat_0
+      name: PlayerWalk_Front_0
       rect:
         serializedVersion: 2
-        x: 17
-        y: 8
-        width: 68
-        height: 79
+        x: 0
+        y: 30
+        width: 294
+        height: 418
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +137,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b72fc926ec71bc690800000000000000
-      internalID: -7580939372562943365
+      spriteID: aa1b8640b12bcc4b0800000000000000
+      internalID: -5418760422525718102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerWalk_Front_1
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 30
+        width: 242
+        height: 438
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7fae483050a444680800000000000000
+      internalID: -8771804788816549129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerWalk_Front_2
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 30
+        width: 295
+        height: 418
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9207e8fc3347edf0800000000000000
+      internalID: -151078133340634465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerWalk_Front_3
+      rect:
+        serializedVersion: 2
+        x: 980
+        y: 30
+        width: 242
+        height: 438
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba584d826d9b1dcf0800000000000000
+      internalID: -229197776560028245
       vertices: []
       indices: 
       edges: []
@@ -161,7 +223,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      splat_0: -7580939372562943365
+      PlayerWalk_Front_0: -5418760422525718102
+      PlayerWalk_Front_1: -8771804788816549129
+      PlayerWalk_Front_2: -151078133340634465
+      PlayerWalk_Front_3: -229197776560028245
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

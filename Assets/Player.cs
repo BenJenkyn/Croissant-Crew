@@ -79,20 +79,20 @@ public class Player : MonoBehaviour
     {
         if (vertical > 0)
         {
-            spriteRenderer.sprite = spriteUp;
+            GetComponent<SpriteAnimator>().SetRange(0, 3, "PlayerWalk_Back");
         }
         else if (vertical < 0)
         {
-            spriteRenderer.sprite = spriteDown;
+            GetComponent<SpriteAnimator>().SetRange(0, 3, "PlayerWalk_Front");
         }
         else
         {
             if (horizontal > 0)
-                spriteRenderer.sprite = spriteRight;
+                GetComponent<SpriteAnimator>().SetRange(0, 3, "PlayerWalk_Right"); // spriteRight
             else if (horizontal < 0)
-                spriteRenderer.sprite = spriteLeft;
+                GetComponent<SpriteAnimator>().SetRange(0, 3, "PlayerWalk_Left");
             else
-                spriteRenderer.sprite = spriteIdle;
+                GetComponent<SpriteAnimator>().SetRange(GetComponent<SpriteAnimator>().currentIndex, GetComponent<SpriteAnimator>().currentIndex, GetComponent<SpriteAnimator>().currentSpriteName);
         }
 
         if (title)

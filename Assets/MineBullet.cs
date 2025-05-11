@@ -1,11 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class MineBullet : MonoBehaviour
 {
     private float damage = 20f;
     public float explosionRadius = 5f; // Set this in the Inspector or here
     public int id;
+
+    int framesAlive;
+
+    [SerializeField] Explosion explosion;
 
     void Start()
     {
@@ -14,7 +19,7 @@ public class MineBullet : MonoBehaviour
 
     void Update()
     {
-
+        framesAlive++;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -24,23 +29,27 @@ public class MineBullet : MonoBehaviour
 
     void Explode(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && framesAlive > 180)
         {
-            float damage = getDamage();
-            collision.GetComponent<Player>().TakeDamage(damage);
+            StartCoroutine(ExplodeShow());
         }
         if (collision.CompareTag("Enemy"))
         {
-            float damage = getDamage();
-            collision.GetComponent<Enemy>().TakeDamage(damage, id);
+            StartCoroutine(ExplodeShow());
         }
 
         // Destroy the mine bullet after explosion
-        Destroy(gameObject);
     }
 
     public float getDamage()
     {
         return damage;
+    }
+
+    IEnumerator ExplodeShow() {
+            explosion.gameObject.SetActive(true);
+            yield return new WaitForSecondsRealtime(0.25f);
+            explosion.gameObject.SetActive(false);
+            Destroy(gameObject);
     }
 }
