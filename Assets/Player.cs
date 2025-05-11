@@ -62,6 +62,9 @@ public class Player : MonoBehaviour
 
     [SerializeField] bool title;
 
+    [SerializeField] Image gunIcon;
+    [SerializeField] Image mineIcon;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -304,11 +307,15 @@ public class Player : MonoBehaviour
         {
             nextBullet = "laser";
             Debug.Log("Laser selected");
+            gunIcon.color = new Color(1,1,1);
+            mineIcon.color = new Color(.5f, .5f, .5f);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             nextBullet = "mine";
             Debug.Log("Mine selected");
+            gunIcon.color = new Color(.5f, .5f, .5f);
+            mineIcon.color = new Color(1, 1, 1);
         }
         // else if (Input.GetKeyDown(KeyCode.Alpha3))
         // {
