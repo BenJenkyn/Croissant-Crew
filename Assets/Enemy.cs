@@ -51,6 +51,7 @@ public class Enemy : MonoBehaviour
 
   public void Die()
     {
+        Player.instance.enemyDied.Play();
         Destroy(gameObject);
     }
 

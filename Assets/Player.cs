@@ -26,8 +26,19 @@ public class Player : MonoBehaviour
     // Transforms and game objects
     [SerializeField] private Transform gunParent;
     [SerializeField] private Transform firePoint;
-    [SerializeField] private GameObject GameOverScreen;
+    [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private GameObject bulletPrefab;
+
+    // Sound effects
+    [SerializeField] private AudioSource lazerShoot;
+    [SerializeField] public AudioSource enemyDied;
+    [SerializeField] private AudioSource playerHurt;
+    [SerializeField] private AudioSource leaveExit;
+    [SerializeField] private AudioSource level1Music;
+    [SerializeField] private AudioSource level2Music;
+    [SerializeField] private AudioSource playerDead;
+
+    AudioSource currentMusic;
 
     bool isImmmne = false;
     bool isDead;
@@ -108,6 +119,7 @@ public class Player : MonoBehaviour
 
     public void Shoot()
     {
+        lazerShoot.Play();
         // Instantiate the bullet at the gun's position and rotation
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
 
@@ -121,14 +133,14 @@ public class Player : MonoBehaviour
     public void Die()
     {
         isDead = true;
-        GameOverScreen.SetActive(true);
+        gameOverScreen.SetActive(true);
         Time.timeScale = 0;
     }
 
     public void Live()
     {
         Init();
-        GameOverScreen.SetActive(false);
+        gameOverScreen.SetActive(false);
         Time.timeScale = 1;
     }
 
@@ -139,6 +151,7 @@ public class Player : MonoBehaviour
             return;
         }
         health -= damage;
+        playerHurt.Play();
         StartCoroutine(HitCooldown());
         if (health <= 0)
         {
@@ -165,5 +178,20 @@ public class Player : MonoBehaviour
         isDead = false;
         transform.position = new Vector3(0, 0);
         SceneManager.LoadScene("Level1");
+        PlayMusic(level1Music);
+    }
+
+    void PlayMusic(AudioSource source)
+    {
+        if (currentMusic != source)
+        {
+            if (currentMusic != null)
+            {
+                currentMusic.Stop();
+            }
+            source.Play();
+            currentMusic = source;
+        }
+
     }
 }
