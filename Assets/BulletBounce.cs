@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BulletBounce : MonoBehaviour
 {
-    [SerializeField] private Bullet bulletPrefab;
+    [SerializeField] private LaserBullet bulletPrefab;
     [SerializeField] private string axis;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

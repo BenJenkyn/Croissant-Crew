@@ -1,7 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -10,7 +13,7 @@ public class Player : MonoBehaviour
     private float vertical = 0f;
     private SpriteRenderer spriteRenderer;
 
-    private float health;
+    public float health, maxHealth;
 
     // Sprite direction movements
     [SerializeField] private Sprite spriteUp;
@@ -27,7 +30,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform gunParent;
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject gameOverScreen;
-    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private GameObject laserBullet;
 
     // Sound effects
     [SerializeField] private AudioSource lazerShoot;
@@ -36,14 +39,31 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioSource leaveExit;
     [SerializeField] private AudioSource level1Music;
     [SerializeField] private AudioSource level2Music;
-    [SerializeField] private AudioSource playerDead;
+    [SerializeField] private AudioSource levelWinMusic;
+    [SerializeField] private AudioSource playerDeadMusic;
+
+    // UI
+    [SerializeField] private Image hpBar;
+    [SerializeField] private Image progressBar;
+    public TextMeshProUGUI levelText;
+
+    // Game logic
+    public float progress, maxProgress;
+    public List<Enemy> enemies;
+    public bool won;
 
     AudioSource currentMusic;
 
-    bool isImmmne = false;
+    bool isImmune = false;
     bool isDead;
     int framesAlive = 0;
     public static Player instance;
+
+    [SerializeField] List<GameObject> bulletPrefabs;
+    string nextBullet;
+    bool bulletCd;
+
+    [SerializeField] bool title;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -51,8 +71,10 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         instance = this;
-        Init();
+        
+        ;
         DontDestroyOnLoad(this);
+        nextBullet = "laser";
     }
 
     // Update is called once per frame
@@ -86,7 +108,16 @@ public class Player : MonoBehaviour
                 spriteRenderer.sprite = spriteIdle;
         }
 
-        if (!isDead)
+        if (title)
+        {
+            Mouse mouse = Mouse.current;
+            if (Input.GetButtonDown("Fire1"))
+            {
+                SceneManager.LoadScene("Level1");
+                title = false;
+            }
+        }
+        else if (!isDead)
         {
             // Rotate the gun to face the mouse
             Mouse mouse = Mouse.current;
@@ -107,6 +138,22 @@ public class Player : MonoBehaviour
                 Shoot();
             }
         }
+
+        progress += Time.deltaTime;
+
+        if (progress >= maxProgress)
+        {
+            if (!won && enemies.Count == 0)
+            {
+                won = true;
+                PlayMusic(levelWinMusic);
+                GameObject levelExitObj = FindObjectByName("LevelExitDoor");
+                levelExitObj.SetActive(true);
+            }
+        }
+
+        hpBar.transform.localScale = new Vector3(1, Mathf.Clamp(health / maxHealth, 0, 1));
+        progressBar.transform.localScale = new Vector3(1, Mathf.Clamp(progress / maxProgress, 0, 1));
     }
 
     void FixedUpdate()
@@ -119,26 +166,56 @@ public class Player : MonoBehaviour
 
     public void Shoot()
     {
+        if (bulletCd)
+        {
+            return;
+        }
+
+        if (nextBullet.Equals("laser"))
+        {
+            StartCoroutine(FireLaser());
+        }
+    }
+
+    IEnumerator FireLaser()
+    {
+        bulletCd = true;
         lazerShoot.Play();
-        // Instantiate the bullet at the gun's position and rotation
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
 
-        // Get the Rigidbody2D component of the bullet
-        Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
+        Vector2 gunPos = firePoint.position;
+        Vector2 gunAngle = new Vector2(-Mathf.Sin(firePoint.rotation.eulerAngles.z * Mathf.Deg2Rad), Mathf.Cos(firePoint.rotation.eulerAngles.z * Mathf.Deg2Rad));
 
-        // Set the bullet's velocity to move forward
-        rbBullet.linearVelocity = new Vector2(-Mathf.Sin(firePoint.rotation.eulerAngles.z * Mathf.Deg2Rad), Mathf.Cos(firePoint.rotation.eulerAngles.z * Mathf.Deg2Rad)) * 10f; // Adjust speed as necessary
+        int bulletId = Random.Range(0, 100000);
+
+        for (int i = 0; i < 8; i++)
+        {
+            // Instantiate the bullet at the gun's position and rotation
+            GameObject bullet = Instantiate(laserBullet, gunPos, Quaternion.identity);
+            bullet.GetComponent<LaserBullet>().id = bulletId;
+            // Get the Rigidbody2D component of the bullet
+            Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
+            // Set the bullet's velocity to move forward
+            rbBullet.linearVelocity = gunAngle * 10f; // Adjust speed as necessary
+
+            yield return new WaitForSecondsRealtime(2 / 60f);
+            
+        }
+        yield return new WaitForSecondsRealtime(0.5f);
+        bulletCd = false;
     }
 
     public void Die()
     {
         isDead = true;
         gameOverScreen.SetActive(true);
+        PlayMusic(playerDeadMusic);
         Time.timeScale = 0;
     }
 
     public void Live()
     {
+        Destroy(this.gameObject);
+        Destroy(Game.instance.gameObject);
         Init();
         gameOverScreen.SetActive(false);
         Time.timeScale = 1;
@@ -146,7 +223,7 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (isImmmne)
+        if (isImmune)
         {
             return;
         }
@@ -161,29 +238,33 @@ public class Player : MonoBehaviour
 
     private IEnumerator HitCooldown()
     {
-        isImmmne = true;
+        isImmune = true;
         for (int i = 0; i < 10; i++)
         {
             spriteRenderer.enabled = false;
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSecondsRealtime(0.05f);
             spriteRenderer.enabled = true;
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSecondsRealtime(0.05f);
         }
-        isImmmne = false;
+        isImmune = false;
     }
 
     private void Init()
     {
+        title = true;
         health = 100f;
+        maxHealth = 100f;
         isDead = false;
+        won = false;
+        enemies = new();
         transform.position = new Vector3(0, 0);
-        SceneManager.LoadScene("Level1");
-        PlayMusic(level1Music);
+        progress = 0;
+        SceneManager.LoadScene("Title");
     }
 
-    void PlayMusic(AudioSource source)
+    public void PlayMusic(AudioSource source)
     {
-        if (currentMusic != source)
+        if (currentMusic == null || currentMusic?.clip != source.clip)
         {
             if (currentMusic != null)
             {
@@ -193,5 +274,18 @@ public class Player : MonoBehaviour
             currentMusic = source;
         }
 
+    }
+
+    public GameObject FindObjectByName(string name)
+    {
+        Transform[] objs = Resources.FindObjectsOfTypeAll<Transform>() as Transform[];
+        for (int i = 0; i < objs.Length; i++)
+        {
+            if (objs[i].name == name && objs[i].gameObject.scene.name != null)
+            {
+                return objs[i].gameObject;
+            }
+        }
+        return null;
     }
 }

@@ -1,47 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private float health = 100f;
+
+    [SerializeField] private float health;
     public static Enemy instance;
+    List<int> bulletIds;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        bulletIds = new();
+        Player.instance.enemies.Add(this);
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Update()
     {
-
+        if (rb.linearVelocityX > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        else
+        {
+            transform.rotation = Quaternion.identity;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        Vector3 playerPosition = Player.instance.transform.position;
-        Vector3 direction = (playerPosition - transform.position).normalized;
-        rb.linearVelocity = direction * 5f; // Adjust speed as necessary
-        // Rotate the enemy to face the player
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
 
-
-    }
-
-    void FixedUpdate()
-    {
-        // Get the Rigidbody2D component of the enemy
-        rb = this.GetComponent<Rigidbody2D>();
-
-        // Set the enemy's velocity to move towards the player
-        Vector3 playerPosition = Player.instance.transform.position;
-        Vector3 direction = (playerPosition - transform.position).normalized;
-        rb.linearVelocity = direction * 1f; // Adjust speed as necessary
-    }
-
-  void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
   {
     if(collision.gameObject.CompareTag("Player"))
     {
@@ -52,15 +41,42 @@ public class Enemy : MonoBehaviour
   public void Die()
     {
         Player.instance.enemyDied.Play();
+        GameObject splat = Resources.Load<GameObject>("Splat");
+        Instantiate(splat, transform.position, Quaternion.Euler(0, 0, Random.Range(0f,359f)), null);
+        Player.instance.enemies.Remove(this);
         Destroy(gameObject);
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, int bulletId)
     {
+        if (bulletIds.Contains(bulletId))
+        {
+            return;
+        }
         health -= damage;
+        StartCoroutine(BulletImmunity(bulletId));
+        StartCoroutine(HurtFlash());
         if (health <= 0)
         {
             Die();
         }
+    }
+
+    IEnumerator BulletImmunity(int bulletId)
+    {
+        bulletIds.Add(bulletId);
+        yield return new WaitForSecondsRealtime(0.5f);
+        bulletIds.Remove(bulletId);
+    }
+
+    IEnumerator HurtFlash()
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        for (int i = 0; i <= 10; i++)
+        {
+            sr.color = new Color(1, i * 0.1f, i * 0.1f);
+            yield return new WaitForSecondsRealtime(1 / 60f);
+        }
+
     }
 }

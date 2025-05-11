@@ -1,10 +1,11 @@
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class LaserBullet : MonoBehaviour
 {
     private Rigidbody2D rb;
     private float damage = 10f;
-    private float lifeTime = 5f;
+    private float lifeTime = 10f;
+    public int id;
 
     void Start()
     {
@@ -14,7 +15,6 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
 
     void FixedUpdate()
