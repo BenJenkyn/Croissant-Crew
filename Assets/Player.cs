@@ -20,10 +20,6 @@ public class Player : MonoBehaviour
     [SerializeField] private Sprite spriteDown;
     [SerializeField] private Sprite spriteLeft;
     [SerializeField] private Sprite spriteRight;
-    [SerializeField] private Sprite spriteUpLeft;
-    [SerializeField] private Sprite spriteUpRight;
-    [SerializeField] private Sprite spriteDownLeft;
-    [SerializeField] private Sprite spriteDownRight;
     [SerializeField] private Sprite spriteIdle;
 
     // Transforms and game objects
@@ -31,6 +27,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private GameObject laserBullet;
+    [SerializeField] private GameObject mineBullet;
 
     // Sound effects
     [SerializeField] private AudioSource lazerShoot;
@@ -71,7 +68,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         instance = this;
-        
+
         ;
         DontDestroyOnLoad(this);
         nextBullet = "laser";
@@ -82,21 +79,11 @@ public class Player : MonoBehaviour
     {
         if (vertical > 0)
         {
-            if (horizontal > 0)
-                spriteRenderer.sprite = spriteUpRight;
-            else if (horizontal < 0)
-                spriteRenderer.sprite = spriteUpLeft;
-            else
-                spriteRenderer.sprite = spriteUp;
+            spriteRenderer.sprite = spriteUp;
         }
         else if (vertical < 0)
         {
-            if (horizontal > 0)
-                spriteRenderer.sprite = spriteDownRight;
-            else if (horizontal < 0)
-                spriteRenderer.sprite = spriteDownLeft;
-            else
-                spriteRenderer.sprite = spriteDown;
+            spriteRenderer.sprite = spriteDown;
         }
         else
         {
@@ -137,6 +124,7 @@ public class Player : MonoBehaviour
             {
                 Shoot();
             }
+            setNextBullet();
         }
 
         progress += Time.deltaTime;
@@ -175,6 +163,10 @@ public class Player : MonoBehaviour
         {
             StartCoroutine(FireLaser());
         }
+        if (nextBullet.Equals("mine"))
+        {
+            StartCoroutine(FireMine());
+        }
     }
 
     IEnumerator FireLaser()
@@ -198,8 +190,25 @@ public class Player : MonoBehaviour
             rbBullet.linearVelocity = gunAngle * 10f; // Adjust speed as necessary
 
             yield return new WaitForSecondsRealtime(2 / 60f);
-            
         }
+        yield return new WaitForSecondsRealtime(0.5f);
+        bulletCd = false;
+    }
+
+    IEnumerator FireMine()
+    {
+        bulletCd = true;
+        lazerShoot.Play();
+
+        Vector2 gunPos = firePoint.position;
+        Vector2 gunAngle = new Vector2(-Mathf.Sin(firePoint.rotation.eulerAngles.z * Mathf.Deg2Rad), Mathf.Cos(firePoint.rotation.eulerAngles.z * Mathf.Deg2Rad));
+
+        int bulletId = Random.Range(0, 100000);
+
+        // Instantiate the bullet at the gun's position and rotation
+        GameObject bullet = Instantiate(mineBullet, gunPos, Quaternion.identity);
+        bullet.GetComponent<MineBullet>().id = bulletId;
+
         yield return new WaitForSecondsRealtime(0.5f);
         bulletCd = false;
     }
@@ -287,5 +296,23 @@ public class Player : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void setNextBullet()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            nextBullet = "laser";
+            Debug.Log("Laser selected");
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            nextBullet = "mine";
+            Debug.Log("Mine selected");
+        }
+        // else if (Input.GetKeyDown(KeyCode.Alpha3))
+        // {
+        //     nextBullet = "bomb";
+        // }
     }
 }

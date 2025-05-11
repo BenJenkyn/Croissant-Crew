@@ -1055,7 +1055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawners: []
-  progressRequired: 1
+  progressRequired: 100
   music: {fileID: 1838863918}
   levelExit: {fileID: 2011155781}
 --- !u!4 &1145016077

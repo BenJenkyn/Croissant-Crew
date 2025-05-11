@@ -996,12 +996,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 484701700}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.57, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.2850001, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1453318576}
+  m_Father: {fileID: 1260927915}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &618637897
 GameObject:
@@ -1219,15 +1219,12 @@ MonoBehaviour:
   spriteDown: {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
   spriteLeft: {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
   spriteRight: {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
-  spriteUpLeft: {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
-  spriteUpRight: {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
-  spriteDownLeft: {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
-  spriteDownRight: {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
   spriteIdle: {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
   gunParent: {fileID: 1260927915}
   firePoint: {fileID: 484701701}
   gameOverScreen: {fileID: 1664068454}
   laserBullet: {fileID: 6337094831560626790, guid: c90b02ea8a27c4c1b8307c4aa18873d7, type: 3}
+  mineBullet: {fileID: 5973961435333104599, guid: 063128eaf47844833a4d5cdcf2380d93, type: 3}
   lazerShoot: {fileID: 1769242670}
   enemyDied: {fileID: 1744193959}
   playerHurt: {fileID: 1309166274}
@@ -1744,6 +1741,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 484701701}
   - {fileID: 1453318576}
   - {fileID: 1127601779}
   m_Father: {fileID: 815206499}
@@ -2122,8 +2120,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 484701701}
+  m_Children: []
   m_Father: {fileID: 1260927915}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1453318577
